@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hero Page with Sliding Background</title>
+    <style>
+        body, html {
+            margin: 0;
+            padding: 0;
+            height: 100%;
+            overflow: hidden;
+            font-family: Arial, sans-serif;
+        }
+
+        .hero {
+            position: relative;
+            width: 100%;
+            height: 100vh;
+            overflow: hidden;
+            color: white;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            font-size: 2rem;
+        }
+
+        .hero h1 {
+            margin: 0;
+        }
+
+        .hero p {
+            margin-top: 10px;
+        }
+
+        .slides {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-size: cover;
+            animation: slide 16s infinite;
+        }
+
+        @keyframes slide {
+            0% { background-image: url('1.jpg'); }
+            25% { background-image: url('2.jpg'); }
+            50% { background-image: url('5.webp'); }
+            75% { background-image: url('4.jpg'); }
+            100% { background-image: url('5.jpg'); }
+        }
+    </style>
+</head>
+<body>
+    <div class="hero">
+        <div class="slides"></div>
+        <h1>Welcome to Our Game Studio</h1>
+        <p>Explore exciting games!</p>
+    </div>
+    <script>
+        // This script is optional if you only want a simple sliding background.
+        // If you want to add more functionality, you can modify this script later.
+    </script>
+</body>
+</html>

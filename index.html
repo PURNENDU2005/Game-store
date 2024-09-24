@@ -1,0 +1,316 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Game Studio</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Arial', sans-serif;
+            color: white;
+            overflow-x: hidden;
+            perspective: 1000px;
+        }
+
+        .hero {
+            position: relative;
+            width: 100%;
+            height: 100vh;
+            overflow: hidden;
+            color: white;
+            display: flex;
+            justify-content: flex-start; /* Align content to the left */
+            align-items: center;
+            text-align: left; /* Align text to the left */
+            font-size: 2rem;
+            padding-left: 5%; 
+        }
+
+        .hero h1 {
+            font-size: 10rem; /* Make the text bigger */
+            font-weight: bold; /* Make the text bolder */
+            margin: 0;
+        }
+
+        .hero p {
+            margin-top: 10px;
+            font-size: 4.5rem; /* Increase font size */
+            font-weight: bold; /* Make the text bolder */
+        }
+
+        .slides {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-size: cover;
+            animation: slide 16s infinite;
+        }
+
+        @keyframes slide {
+            0% { background-image: url('1.jpg'); }
+            25% { background-image: url('2.jpg'); }
+            50% { background-image: url('5.webp'); }
+            75% { background-image: url('4.jpg'); }
+            100% { background-image: url('5.jpg'); }
+        }
+
+        h1 {
+            margin-bottom: 20px;
+            animation: popIn 1s forwards;
+        }
+
+        p {
+            margin-bottom: 30px;
+            animation: popIn 1s forwards;
+            animation-delay: 0.5s;
+        }
+
+        .explore-button {
+            background-color: #ffcc00;
+            color: #121212;
+            padding: 15px 30px;
+            text-decoration: none;
+            border-radius: 5px;
+            font-size: 1.2rem;
+            transition: background-color 0.3s, transform 0.3s;
+            box-shadow: 0 4px 20px rgba(255, 204, 0, 0.5);
+        }
+
+        .explore-button:hover {
+            background-color: #ffb300;
+            transform: scale(1.1);
+        }
+
+        /* Game Showcase Section */
+        .game-showcase-section {
+            padding: 30px;
+            text-align: center;
+            background-color: #121212;
+            animation: fadeIn 1.5s forwards;
+        }
+
+        .game-showcase-section h2 {
+            font-size: 3rem;
+            margin-bottom: 10px;
+            animation: popIn 1s forwards;
+        }
+
+        .game-showcase-section p {
+            font-size: 1.2rem;
+            margin-bottom: 30px;
+            animation: popIn 1s forwards;
+        }
+
+        /* Game Showcase */
+        .game-showcase {
+            display: flex;
+            justify-content: space-around;
+            flex-wrap: wrap;
+            padding: 50px;
+            position: relative;
+            animation: fadeIn 1.5s forwards;
+            overflow: hidden;
+        }
+
+        /* Background Grid for Game Showcase */
+        .grid {
+            position: absolute;
+            width: 97vw;
+            height: 100vh;
+            background: linear-gradient(to right, rgba(255, 255, 255, 0.1) 1px, transparent 1px),
+                        linear-gradient(to bottom, rgba(255, 255, 255, 0.1) 1px, transparent 1px);
+            background-size: 50px 50px;
+            animation: move-grid 10s linear infinite;
+            z-index: 0;
+            margin: 0 auto;
+        }
+
+        @keyframes move-grid {
+            from {
+                transform: translateY(0);
+            }
+            to {
+                transform: translateY(-50px);
+            }
+        }
+
+        /* Game Cards */
+        .game-card {
+            border-radius: 5px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+            margin: 20px;
+            padding: 10px;
+            width: 320px;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 400px;
+            transition: transform 0.3s, box-shadow 0.3s, background-color 0.3s;
+            z-index: 2;
+        }
+
+        .game-card:hover {
+            transform: scale(1.05);
+            background-color: #868686;
+            box-shadow: 0 8px 30px rgba(0, 0, 0, 0.5);
+        }
+
+        .game-card img {
+            width: 100%;
+            height: 70%;
+        }
+
+        .game-name {
+            margin: 10px 0;
+            font-size: 1.5rem;
+            font-weight: bold;
+        }
+
+        .play-button {
+            display: block;
+            margin-top: 10px;
+            background-color: #000000;
+            color: white;
+            padding: 10px;
+            text-align: center;
+            border-radius: 5px;
+            text-decoration: none;
+            border: 1px solid white;
+            transition: background-color 0.3s, transform 0.3s;
+        }
+
+        .play-button:hover {
+            background-color: #ffffff;
+            color: black;
+            border: 2px solid black;
+            transform: translateY(-2px);
+        }
+
+        .play-button.disabled {
+            background-color: #ffffff;
+            color: black;
+            cursor: not-allowed;
+        }
+
+        footer {
+            text-align: center;
+            padding: 10px;
+            background-color: #333;
+            color: white;
+        }
+
+        .social-media a {
+            margin: 0 10px;
+            color: white;
+            text-decoration: none;
+        }
+
+        /* Animations */
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+            }
+            to {
+                opacity: 1;
+            }
+        }
+
+        @keyframes slideUp {
+            from {
+                transform: translateY(30px);
+                opacity: 0;
+            }
+            to {
+                transform: translateY(0);
+                opacity: 1;
+            }
+        }
+
+        @keyframes popIn {
+            from {
+                transform: scale(0);
+                opacity: 0;
+            }
+            to {
+                transform: scale(1);
+                opacity: 1;
+            }
+        }
+
+        #card1 {
+            background-color: rgba(230, 14, 57, 0.366);
+            border: 3px solid rgba(255, 0, 43, 0.758);
+        }
+
+        #card2 {
+            background-color: rgba(0, 178, 254, 0.385);
+            border: 3px solid rgb(8, 167, 247);
+
+        }
+
+        #card3 {
+            background-color: rgba(81, 255, 0, 0.338);
+            border: 3px solid rgb(51, 255, 0);
+
+        }
+
+        .kk
+        {
+            font-weight: 900;
+            font-size: 700px;
+        }
+
+    </style>
+</head>
+<body>
+    <div class="hero">
+        <div class="slides"></div>
+        <div class="kk">
+            <h1 class="kk">Welcome to Our Game Studio</h1>
+            <p>Explore exciting games!</p>
+        </div>
+    </div>
+
+    <div class="game-showcase-section" id="game-showcase-section">
+        <h2>Our Games</h2>
+        <p>Choose a game and start playing!</p>
+
+        <div class="grid"></div>
+        <div class="game-showcase">
+            <div class="game-card" id="card1">
+                <img src="https://th.bing.com/th/id/OIP.ClaIJLCg-3v2Hoe9j9qGsgHaHa?pid=ImgDet&w=191&h=191&c=7&dpr=1.4" alt="Tic-Tac-Toe">
+                <div class="game-name">Tic-Tac-Toe</div>
+                <a href="https://purnendu2005.github.io/TIC---TAC---TOE/" class="play-button">Play Now</a>
+            </div>
+
+            <div class="game-card" id="card2">
+                <img src="SP.png" alt="Space Shooter">
+                <div class="game-name">Space Shooter</div>
+                <a href="https://purnendu2005.github.io/Space_Fighter/" class="play-button">Play Now</a>
+            </div>
+
+            <div class="game-card" id="card3">
+                <img src="https://th.bing.com/th/id/OIP.jJcvZke4lBLjH9e9cMJTGgAAAA?rs=1&pid=ImgDetMain" alt="Farming Game">
+                <div class="game-name">Farm Frenzy</div>
+                <a href="#" class="play-button disabled">Coming Soon</a>
+            </div>
+        </div>
+    </div>
+
+    <footer>
+        <p>&copy; 2024 NEXGEN. All rights reserved.</p>
+    </footer>
+</body>
+</html>

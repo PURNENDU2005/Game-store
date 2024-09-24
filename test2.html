@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Enhanced Animated Glowing Background</title>
+    <style>
+        body {
+            margin: 0;
+            overflow: hidden;
+            background-color: #121212; /* Dark background */
+        }
+
+        .hero {
+            position: relative;
+            height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #ffffff; /* Text color for any content you add */
+            font-family: Arial, sans-serif;
+            text-align: center;
+            overflow: hidden;
+        }
+
+        .background-slides {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            display: flex;
+            animation: slide 16s infinite;
+        }
+
+        .slide {
+            min-width: 100%;
+            height: 100%;
+            background-size: cover;
+            background-position: center;
+        }
+
+        @keyframes slide {
+            0% { transform: translateX(0); }
+            20% { transform: translateX(0); }
+            25% { transform: translateX(-100%); }
+            45% { transform: translateX(-100%); }
+            50% { transform: translateX(-200%); }
+            70% { transform: translateX(-200%); }
+            75% { transform: translateX(-300%); }
+            95% { transform: translateX(-300%); }
+            100% { transform: translateX(0); }
+        }
+
+        h1 {
+            position: relative;
+            z-index: 1;
+            font-size: 3em;
+            text-shadow: 0 0 20px rgba(0, 255, 255, 0.7);
+        }
+
+        p {
+            position: relative;
+            z-index: 1;
+            font-size: 1.2em;
+            text-shadow: 0 0 10px rgba(0, 255, 255, 0.5);
+        }
+
+        #networkCanvas {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+        }
+    </style>
+</head>
+<body>
+    <div class="hero">
+        <div class="background-slides">
+            <div class="slide" style="background-image: url('background1.jpg');"></div>
+            <div class="slide" style="background-image: url('background2.jpg');"></div>
+            <div class="slide" style="background-image: url('background3.jpg');"></div>
+            <div class="slide" style="background-image: url('background4.jpg');"></div>
+        </div>
+        <h1>Welcome to Our Space</h1>
+        <p>Experience the connection of ideas</p>
+        <canvas id="networkCanvas"></canvas>
+    </div>
+
+    <script>
+        const canvas = document.getElementById('networkCanvas');
+        const ctx = canvas.getContext('2d');
+
+        canvas.width = window.innerWidth;
+        canvas.height = window.innerHeight;
+
+        const nodes = [];
+        const numNodes = 100; // Increase number of nodes for a more crowded effect
+
+        // Initialize nodes with random positions
+        for (let i = 0; i < numNodes; i++) {
+            nodes.push({
+                x: Math.random() * canvas.width,
+                y: Math.random() * canvas.height,
+                radius: Math.random() * 5 + 2,
+                dx: (Math.random() - 0.5) * 4, // Random movement in x
+                dy: (Math.random() - 0.5) * 4, // Random movement in y
+                color: `hsl(${Math.random() * 360}, 100%, 50%)` // Random color for nodes
+            });
+        }
+
+        function connectNodes(node1, node2) {
+            const dist = Math.sqrt((node1.x - node2.x) ** 2 + (node1.y - node2.y) ** 2);
+            if (dist < 100) {
+                ctx.strokeStyle = `rgba(0, 255, 255, ${1 - dist / 100})`; // Glowing effect
+                ctx.lineWidth = 2;
+                ctx.beginPath();
+                ctx.moveTo(node1.x, node1.y);
+                ctx.lineTo(node2.x, node2.y);
+                ctx.stroke();
+            }
+        }
+
+        function draw() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            
+            nodes.forEach(node => {
+                // Update node position
+                node.x += node.dx;
+                node.y += node.dy;
+
+                // Bounce off the edges
+                if (node.x < 0 || node.x > canvas.width) node.dx *= -1;
+                if (node.y < 0 || node.y > canvas.height) node.dy *= -1;
+
+                // Draw glowing node with color
+                ctx.fillStyle = node.color;
+                ctx.shadowColor = node.color;
+                ctx.shadowBlur = 20; // Glow effect
+                ctx.beginPath();
+                ctx.arc(node.x, node.y, node.radius, 0, Math.PI * 2);
+                ctx.fill();
+
+                // Connect nodes
+                nodes.forEach(otherNode => {
+                    if (otherNode !== node) {
+                        connectNodes(node, otherNode);
+                    }
+                });
+            });
+
+            requestAnimationFrame(draw);
+        }
+
+        draw();
+    </script>
+</body>
+</html>
